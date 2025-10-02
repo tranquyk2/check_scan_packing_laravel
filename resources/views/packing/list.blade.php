@@ -164,7 +164,7 @@
                     <td class="px-2 py-1 border col-packing_time">{{ $packing->packing_time }}</td>
                     <td class="px-2 py-1 border col-packing_updated">{{ $packing->packing_updated }}</td>
                     <td class="px-2 py-1 border col-line_id">{{ $packing->line_id }}</td>
-                    <td class="px-2 py-1 border col-line_name">{{ $packing->line_name }}</td>
+                    <td class="px-2 py-1 border col-line_name">{{ $packing->line_name ?? '' }}</td>
                 </tr>
                 @endforeach
             </tbody>
