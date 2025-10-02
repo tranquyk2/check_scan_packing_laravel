@@ -83,7 +83,7 @@
                 }
             });
         });
-    const stats = @json($stats);
+    const stats = {!! json_encode($stats) !!};
     const labels = stats.map(item => item.line_name || 'N/A');
     const totalData = stats.map(item => item.total);
     const okData = stats.map(item => item.ok_count);

@@ -157,14 +157,14 @@
             <tbody>
                 @foreach($packings as $packing)
                 <tr class="hover:bg-blue-50 text-center">
-                    <td class="px-2 py-1 border col-packing_id">{{ $packing->packing_id }}</td>
-                    <td class="px-2 py-1 border col-barcode">{{ $packing->barcode }}</td>
-                    <td class="px-2 py-1 border col-packing_model">{{ $packing->packing_model }}</td>
-                    <td class="px-2 py-1 border col-packing_result">{{ $packing->packing_result }}</td>
-                    <td class="px-2 py-1 border col-packing_time">{{ $packing->packing_time }}</td>
-                    <td class="px-2 py-1 border col-packing_updated">{{ $packing->packing_updated }}</td>
-                    <td class="px-2 py-1 border col-line_id">{{ $packing->line_id }}</td>
-                    <td class="px-2 py-1 border col-line_name">{{ $packing->line_name ?? '' }}</td>
+                    <td class="px-2 py-1 border col-packing_id">{{ $packing['packing_id'] }}</td>
+                    <td class="px-2 py-1 border col-barcode">{{ $packing['barcode'] }}</td>
+                    <td class="px-2 py-1 border col-packing_model">{{ $packing['packing_model'] }}</td>
+                    <td class="px-2 py-1 border col-packing_result">{{ $packing['packing_result'] }}</td>
+                    <td class="px-2 py-1 border col-packing_time">{{ $packing['packing_time'] }}</td>
+                    <td class="px-2 py-1 border col-packing_updated">{{ $packing['packing_updated'] }}</td>
+                    <td class="px-2 py-1 border col-line_id">{{ $packing['line_id'] }}</td>
+                    <td class="px-2 py-1 border col-line_name">{{ $packing['line_name'] ?? '' }}</td>
                 </tr>
                 @endforeach
             </tbody>
