@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container mx-auto py-6">
-    <h2 class="text-2xl font-bold mb-4 text-center">Biểu đồ Packing theo Line</h2>
-    <canvas id="lineStatsChart" height="100"></canvas>
+    <h2 class="text-2xl font-bold mb-4 text-center">Thống kê Packing theo Model (Tổng/OK/NG)</h2>
+    <canvas id="modelStatsChart" height="100"></canvas>
 
     <div class="my-8">
     <div class="my-8">
@@ -21,12 +21,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
-    // Biểu đồ top 5 model được packing nhiều nhất (cột ngang)
+    // Biểu đồ top 10 model được packing nhiều nhất (cột ngang)
     fetch("{{ route('packing.stats.topmodel') }}")
         .then(res => res.json())
         .then(data => {
-            const labels = data.map(item => item.packing_model || 'N/A');
-            const values = data.map(item => item.total);
+            const top10 = data.slice(0, 10);
+            const labels = top10.map(item => item.packing_model || 'N/A');
+            const values = top10.map(item => item.total);
             const ctx = document.getElementById('topModelChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
@@ -53,12 +54,13 @@
             });
         });
 
-    // Biểu đồ số lượng packing theo model
+    // Biểu đồ số lượng packing theo model (top 10)
     fetch("{{ route('packing.stats.model') }}")
         .then(res => res.json())
         .then(data => {
-            const labels = data.map(item => item.packing_model || 'N/A');
-            const values = data.map(item => item.total);
+            const top10 = data.slice(0, 10);
+            const labels = top10.map(item => item.packing_model || 'N/A');
+            const values = top10.map(item => item.total);
             const ctx = document.getElementById('packingByModelChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
@@ -83,12 +85,14 @@
                 }
             });
         });
-    const stats = {!! json_encode($stats) !!};
-    const labels = stats.map(item => item.line_name || 'N/A');
-    const totalData = stats.map(item => item.total);
-    const okData = stats.map(item => item.ok_count);
-    const ngData = stats.map(item => item.ng_count);
-    const ctx = document.getElementById('lineStatsChart').getContext('2d');
+    // Biểu đồ thống kê Packing theo Model (Tổng/OK/NG) - chỉ top 10
+    const stats = @json($stats);
+    const top10Stats = stats.slice(0, 10);
+    const labels = top10Stats.map(item => item.packing_model || 'N/A');
+    const totalData = top10Stats.map(item => item.total);
+    const okData = top10Stats.map(item => item.ok_count);
+    const ngData = top10Stats.map(item => item.ng_count);
+    const ctx = document.getElementById('modelStatsChart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
         data: {
@@ -115,7 +119,7 @@
             responsive: true,
             plugins: {
                 legend: { position: 'top' },
-                title: { display: true, text: 'Thống kê Packing theo Line (Tổng/OK/NG)' }
+                title: { display: true, text: 'Thống kê Packing theo Model (Tổng/OK/NG)' }
             },
             scales: {
                 x: { stacked: true },
@@ -124,12 +128,13 @@
         }
     });
 
-    // Biểu đồ số lượng packing theo ngày
+    // Biểu đồ số lượng packing theo ngày (chỉ lấy 30 ngày gần nhất)
     fetch("{{ route('packing.stats.daily') }}")
         .then(res => res.json())
         .then(data => {
-            const labels = data.map(item => item.date);
-            const values = data.map(item => item.total);
+            const last30 = data.slice(-30);
+            const labels = last30.map(item => item.date);
+            const values = last30.map(item => item.total);
             const ctx = document.getElementById('packingByDateChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',

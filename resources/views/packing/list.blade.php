@@ -31,28 +31,7 @@
                     @endif
                 </select>
             </div>
-            <div>
-                <label class="block text-sm font-medium">Line ID</label>
-                <select name="line_id" class="border rounded px-2 py-1 w-full">
-                    <option value="">-- Tất cả --</option>
-                    @if(isset($lineIdOptions))
-                        @foreach($lineIdOptions as $id)
-                            <option value="{{ $id }}" {{ request('line_id') == $id ? 'selected' : '' }}>{{ $id }}</option>
-                        @endforeach
-                    @endif
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm font-medium">Line Name</label>
-                <select name="line_name" class="border rounded px-2 py-1 w-full">
-                    <option value="">-- Tất cả --</option>
-                    @if(isset($lineNameOptions))
-                        @foreach($lineNameOptions as $name)
-                            <option value="{{ $name }}" {{ request('line_name') == $name ? 'selected' : '' }}>{{ $name }}</option>
-                        @endforeach
-                    @endif
-                </select>
-            </div>
+        
             <div>
                 <label class="block text-sm font-medium">Packing Time từ</label>
                 <input type="date" name="packing_time_from" value="{{ request('packing_time_from') }}" class="border rounded px-2 py-1 w-full">
@@ -69,7 +48,7 @@
             </div>
             <a
                 id="export-excel-btn"
-                href="{{ route('packing.export', array_merge(request()->all(), ['columns' => 'packing_id,barcode,packing_model,packing_result,packing_time,packing_updated,line_id,line_name'])) }}"
+                    href="{{ route('packing.export', array_merge(request()->all(), ['columns' => 'packing_id,barcode,packing_model,packing_result,packing_time,packing_updated'])) }}"
                 class="flex items-center gap-1 bg-[#21a366] text-white px-3 py-1.5 rounded-md shadow font-semibold text-sm border border-[#1d8348] hover:bg-[#1d8348] transition-all"
                 style="min-width: 0;"
                 target="_blank"
@@ -89,8 +68,8 @@
         <label><input type="checkbox" class="toggle-col" data-col="packing_result" checked> Packing Result</label>
         <label><input type="checkbox" class="toggle-col" data-col="packing_time" checked> Packing Time</label>
         <label><input type="checkbox" class="toggle-col" data-col="packing_updated" checked> Updated At</label>
-        <label><input type="checkbox" class="toggle-col" data-col="line_id" checked> Line ID</label>
-        <label><input type="checkbox" class="toggle-col" data-col="line_name" checked> Line Name</label>
+    {{-- Bỏ checkbox Line ID --}}
+        {{-- Bỏ checkbox Line ID và Line Name --}}
     </div>
     <script>
     // Ẩn/hiện cột theo checkbox và lưu cấu hình vào localStorage
@@ -150,8 +129,7 @@
                     <th class="px-3 py-2 border col-packing_result">Packing Result</th>
                     <th class="px-3 py-2 border col-packing_time">Packing Time</th>
                     <th class="px-3 py-2 border col-packing_updated">Updated At</th>
-                    <th class="px-3 py-2 border col-line_id">Line ID</th>
-                    <th class="px-3 py-2 border col-line_name">Line Name</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -163,8 +141,7 @@
                     <td class="px-2 py-1 border col-packing_result">{{ $packing['packing_result'] }}</td>
                     <td class="px-2 py-1 border col-packing_time">{{ $packing['packing_time'] }}</td>
                     <td class="px-2 py-1 border col-packing_updated">{{ $packing['packing_updated'] }}</td>
-                    <td class="px-2 py-1 border col-line_id">{{ $packing['line_id'] }}</td>
-                    <td class="px-2 py-1 border col-line_name">{{ $packing['line_name'] ?? '' }}</td>
+                    
                 </tr>
                 @endforeach
             </tbody>
