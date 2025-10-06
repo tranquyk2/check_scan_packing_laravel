@@ -15,10 +15,10 @@
                     <x-nav-link :href="route('packing.list')" :active="request()->routeIs('packing.list')">
                         <span class="text-black font-bold">Packing List</span>
                     </x-nav-link>
-                    <x-nav-link :href="route('packing.stats.line')" :active="request()->routeIs('packing.stats.line')">
-                        <span class="text-black font-bold">Thống kê</span>
-                    </x-nav-link>
-                </div>
+                        <x-nav-link href="{{ route('packing.stats') }}" :active="request()->routeIs('packing.stats')">
+                            <span class="text-black font-bold">Thống kê</span>
+                        </x-nav-link>
+                    </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -73,6 +73,9 @@
             <x-responsive-nav-link :href="route('packing.list')" :active="request()->routeIs('packing.list')">
                 Packing List
             </x-responsive-nav-link>
+                    <x-responsive-nav-link href="{{ route('packing.stats') }}" :active="request()->routeIs('packing.stats')">
+                        Thống kê
+                    </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

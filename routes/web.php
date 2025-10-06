@@ -1,16 +1,32 @@
 <?php
 use App\Http\Controllers\PackingController;
-
 use App\Http\Controllers\PackingStatsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/packing-stats', function () {
+    $month = now()->format('Y-m');
+    $stats = DB::table('check_scan_packings')
+        ->select([
+            'model as packing_model',
+            DB::raw('COUNT(*) as total'),
+            DB::raw("SUM(CASE WHEN result = 'OK' THEN 1 ELSE 0 END) as ok_count"),
+            DB::raw("SUM(CASE WHEN result = 'NG' THEN 1 ELSE 0 END) as ng_count")
+        ])
+        ->whereRaw("DATE_FORMAT(created_at, '%Y-%m') = ?", [$month])
+        ->groupBy('model')
+        ->orderByDesc('total')
+        ->get();
+    return view('packing.stats', compact('stats'));
+})->name('packing.stats');
 
-Route::get('/packing-stats/line', [PackingStatsController::class, 'lineStats'])->name('packing.stats.line');
+
+
 Route::get('/packing-stats/daily', [PackingStatsController::class, 'dailyStats'])->name('packing.stats.daily');
 Route::get('/packing-stats/model', [PackingStatsController::class, 'modelStats'])->name('packing.stats.model');
 Route::get('/packing-stats/topmodel', [PackingStatsController::class, 'topModelStats'])->name('packing.stats.topmodel');

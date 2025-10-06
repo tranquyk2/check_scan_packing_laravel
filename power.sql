@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 16, 2025 lúc 11:11 AM
+-- Thời gian đã tạo: Th10 06, 2025 lúc 05:41 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.1.25
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,28 +28,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `barcodes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `factory_id` tinyint(4) NOT NULL,
-  `line_id` tinyint(4) NOT NULL,
-  `model_id` int(11) NOT NULL,
-  `code` varchar(50) NOT NULL,
-  `device_name` varchar(30) NOT NULL,
-  `datetime` datetime NOT NULL,
-  `type_id` tinyint(4) NOT NULL,
-  `char_count` tinyint(3) UNSIGNED NOT NULL,
-  `note` varchar(255) DEFAULT NULL,
-  `status` varchar(10) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `barcodes_dynamic`
---
-
-CREATE TABLE `barcodes_dynamic` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `factory_id` tinyint(4) NOT NULL,
   `line_id` tinyint(4) NOT NULL,
@@ -129,23 +107,6 @@ CREATE TABLE `barcode_models` (
 --
 
 CREATE TABLE `check_scans` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `barcode` varchar(255) NOT NULL,
-  `result` varchar(6) NOT NULL,
-  `model` varchar(50) NOT NULL,
-  `file_name` varchar(255) DEFAULT NULL,
-  `datetime` datetime DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `check_scans_dynamic`
---
-
-CREATE TABLE `check_scans_dynamic` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `barcode` varchar(255) NOT NULL,
   `result` varchar(6) NOT NULL,
@@ -281,33 +242,6 @@ CREATE TABLE `migrations` (
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `migrations`
---
-
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2025_01_23_034442_create_histories_table', 1),
-(6, '2025_02_02_204856_add_week_column_to_histories_table', 1),
-(7, '2025_02_11_160920_create_costs_table', 1),
-(8, '2025_03_17_092920_add_kw_draft_to_histories_table', 1),
-(9, '2025_03_17_145512_add_day_to_costs_table', 1),
-(10, '2025_03_24_081827_create_barcodes_table', 1),
-(11, '2025_03_25_222342_create_models_table', 1),
-(12, '2025_03_27_215103_create_barcode_lines_table', 1),
-(13, '2025_03_27_215114_create_barcode_factories_table', 1),
-(14, '2025_03_28_162333_create_barcode_logs_table', 1),
-(15, '2025_06_19_104043_create_check_scan_models_table', 1),
-(16, '2025_06_23_111603_create_check_scans_table', 1),
-(17, '2025_06_23_120318_create_check_scans_tmp_table', 1),
-(18, '2025_07_11_152330_create_check_scan_packings_table', 1),
-(19, '2025_07_14_104757_create_check_scan_packing_box_table', 1),
-(20, 'template_create_barcodes_dynamic', 1),
-(21, 'template_create_check_scans_dynamic', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -357,13 +291,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `users`
---
-
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(21, 'admin', 'user@example.com', NULL, '$2y$12$JPaATVivYxxqduIhGwpG/OM0BDm7bNhYHaIelaO454zkwOCv85jiy', NULL, '2025-09-16 08:20:30', '2025-09-16 08:20:30');
-
---
 -- Chỉ mục cho các bảng đã đổ
 --
 
@@ -371,12 +298,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 -- Chỉ mục cho bảng `barcodes`
 --
 ALTER TABLE `barcodes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Chỉ mục cho bảng `barcodes_dynamic`
---
-ALTER TABLE `barcodes_dynamic`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -409,13 +330,6 @@ ALTER TABLE `barcode_models`
 ALTER TABLE `check_scans`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `check_scans_barcode_unique` (`barcode`);
-
---
--- Chỉ mục cho bảng `check_scans_dynamic`
---
-ALTER TABLE `check_scans_dynamic`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `check_scans_dynamic_barcode_unique` (`barcode`);
 
 --
 -- Chỉ mục cho bảng `check_scans_tmp`
@@ -496,12 +410,6 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `barcodes`
 --
 ALTER TABLE `barcodes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT cho bảng `barcodes_dynamic`
---
-ALTER TABLE `barcodes_dynamic`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -532,12 +440,6 @@ ALTER TABLE `barcode_models`
 -- AUTO_INCREMENT cho bảng `check_scans`
 --
 ALTER TABLE `check_scans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT cho bảng `check_scans_dynamic`
---
-ALTER TABLE `check_scans_dynamic`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -586,7 +488,7 @@ ALTER TABLE `histories`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `personal_access_tokens`
@@ -598,7 +500,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
